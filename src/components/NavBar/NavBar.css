@@ -1,0 +1,25 @@
+.navbar {
+  background-color: var(--bg-color);
+  padding: 10px 20px;
+  border-bottom: 1px solid #444;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar a {
+  color: var(--text-color);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: var(--link-hover-color);
+}
