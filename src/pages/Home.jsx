@@ -1,4 +1,8 @@
+import usePageTitle from "../hooks/pageTitle";
+
 function Home() {
+  usePageTitle("Home");
+
   return (
     <div style={{ textAlign: "center", padding: "40px 20px" }}>
       <h1>Página Inicial</h1>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import BookForm from "../components/BookForm/BookForm";
 import api from "../services/api";
+import usePageTitle from "../hooks/pageTitle";
 
 function AddBook() {
   const [successMessage, setSuccessMessage] = useState("");
@@ -9,6 +10,8 @@ function AddBook() {
   const editBook = location.state?.book || null;
   const editIndex = location.state?.index ?? null;
   const [lastBook, setLastBook] = useState(null);
+
+  usePageTitle(editBook ? "Editar Livro" : "Cadastrar Livro");
 
   const handleAddBook = async (newBook) => {
     try {

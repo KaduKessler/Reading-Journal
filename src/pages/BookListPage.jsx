@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import BookList from "../components/BookList/BookList";
 import { Link } from "react-router-dom";
 import api from "../services/api";
+import usePageTitle from "../hooks/pageTitle";
 
 function BookListPage() {
+  usePageTitle("Lista de Livros");
+
   const [books, setBooks] = useState([]);
 
   useEffect(() => {

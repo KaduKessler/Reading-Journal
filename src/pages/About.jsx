@@ -1,4 +1,8 @@
+import usePageTitle from "../hooks/pageTitle";
+
 function About() {
+  usePageTitle("Sobre");
+
   return (
     <div style={{ textAlign: "center", padding: "40px 20px" }}>
       <h1>Sobre</h1>
