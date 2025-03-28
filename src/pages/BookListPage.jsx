@@ -8,6 +8,7 @@ function BookListPage() {
   usePageTitle("Lista de Livros");
 
   const [books, setBooks] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -31,10 +32,23 @@ function BookListPage() {
     }
   };
 
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="book-list-container">
       <h1>Lista de Livros</h1>
-      <BookList books={books} onDelete={handleDeleteBook} />
+
+      <input
+        type="text"
+        placeholder="Buscar livros..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="search-input"
+      />
+
+      <BookList books={filteredBooks} onDelete={handleDeleteBook} />
       <Link to="/cadastrar">
         <button className="back-button">Cadastrar novo livro</button>
       </Link>
