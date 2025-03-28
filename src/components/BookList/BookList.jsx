@@ -14,7 +14,7 @@ function BookList({ books, onDelete }) {
   return (
     <div className="book-list">
       {books.map((book, index) => (
-        <div className="book-item">
+        <div className="book-item" key={book.id}>
           <span>
             <strong>{book.title}</strong> – {book.author} ({book.genre}) –{" "}
             {formatDate(book.readAt)}
