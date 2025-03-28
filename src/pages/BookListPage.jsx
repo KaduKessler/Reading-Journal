@@ -1,51 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookList from "../components/BookList/BookList";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 function BookListPage() {
-  const [books, setBooks] = useState([
-    {
-      title: "Pai Rico, Pai Pobre",
-      author: "Robert Kiyosaki",
-      genre: "Finanças pessoais",
-      date: "2024-03-10",
-    },
-    {
-      title: "O Programador Pragmático",
-      author: "Andrew Hunt e David Thomas",
-      genre: "Tecnologia, Desenvolvimento",
-      date: "2024-03-12",
-    },
-    {
-      title: "Como Fazer Amigos e Influenciar Pessoas",
-      author: "Dale Carnegie",
-      genre: "Relacionamentos, Comunicação",
-      date: "2024-03-14",
-    },
-    {
-      title: "Extraordinário",
-      author: "R. J. Palacio",
-      genre: "Ficção, Drama",
-      date: "2024-03-16",
-    },
-    {
-      title: "O Cortiço",
-      author: "Aluísio Azevedo",
-      genre: "Romance Naturalista",
-      date: "2024-03-18",
-    },
-  ]);
+  const [books, setBooks] = useState([]);
 
-  const handleDeleteBook = (indexToDelete) => {
-    const updatedBooks = books.filter((_, index) => index !== indexToDelete);
-    setBooks(updatedBooks);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await api.get("/books");
+        setBooks(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar livros:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  const handleDeleteBook = async (id) => {
+    try {
+      await api.delete(`/books/${id}`);
+      setBooks(books.filter((book) => book.id !== id));
+    } catch (error) {
+      console.error("Erro ao excluir livro:", error);
+    }
   };
 
   return (
     <div className="book-list-container">
       <h1>Lista de Livros</h1>
       <BookList books={books} onDelete={handleDeleteBook} />
-
       <Link to="/cadastrar">
         <button className="back-button">Cadastrar novo livro</button>
       </Link>

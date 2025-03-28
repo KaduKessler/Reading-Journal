@@ -17,11 +17,11 @@ function BookList({ books, onDelete }) {
         <div className="book-item">
           <span>
             <strong>{book.title}</strong> – {book.author} ({book.genre}) –{" "}
-            {formatDate(book.date)}
+            {formatDate(book.readAt)}
           </span>
           <div className="actions">
             <button onClick={() => handleEdit(book, index)}>Editar</button>
-            <button onClick={() => onDelete(index)}>Excluir</button>
+            <button onClick={() => onDelete(book.id)}>Excluir</button>
           </div>
         </div>
       ))}
