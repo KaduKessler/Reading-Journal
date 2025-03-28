@@ -12,11 +12,17 @@ function AddBook() {
 
   const handleAddBook = async (newBook) => {
     try {
-      const response = await api.post("/books", newBook);
-      setLastBook(response.data);
-      console.log("Livro adicionado:", response.data);
+      if (editBook) {
+        await api.put("/books", newBook);
+        setSuccessMessage("Livro atualizado com sucesso!");
+        setLastBook(newBook);
+      } else {
+        const response = await api.post("/books", newBook);
+        setLastBook(response.data);
+        setSuccessMessage("Livro cadastrado com sucesso!");
+      }
     } catch (error) {
-      console.error("Erro ao adicionar livro:", error);
+      console.error("Erro ao salvar livro:", error);
     }
   };
 

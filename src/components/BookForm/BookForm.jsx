@@ -46,7 +46,14 @@ function BookForm({ onAddBook, bookToEdit, bookIndex, setSuccessMessage }) {
       return;
     }
 
-    const newBook = { title, author, genre, readAt };
+    const newBook = {
+      title,
+      author,
+      genre,
+      readAt,
+      ...(bookToEdit?.id && { id: bookToEdit.id }),
+    };
+
     onAddBook(newBook, bookIndex);
 
     if (bookIndex !== null && bookIndex !== undefined) {
