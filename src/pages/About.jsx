@@ -1,17 +1,25 @@
+import { Box, Typography, Paper } from "@mui/material";
 import usePageTitle from "../hooks/pageTitle";
 
 function About() {
   usePageTitle("Sobre");
 
   return (
-    <div style={{ textAlign: "center", padding: "40px 20px" }}>
-      <h1>Sobre</h1>
-      <p>
-        Esta é uma aplicação para um CRUD de um Reading Journal. <br />
-        Este projeto foi elaborado na disciplina de Desenvolvimento de Sistemas
-        Frontend do curso de graduação online da PUCRS.
-      </p>
-    </div>
+    <Box maxWidth="md" mx="auto" px={2} py={6}>
+      <Paper elevation={3} sx={{ p: 4, textAlign: "center" }}>
+        <Typography variant="h4" gutterBottom>
+          Sobre o Projeto
+        </Typography>
+        <Typography variant="body1">
+          Este projeto foi desenvolvido como parte da disciplina de{" "}
+          <strong>Desenvolvimento de Sistemas Frontend</strong> no curso de
+          Análise e Desenvolvimento de Sistemas da <strong>PUCRS</strong>.
+          <br />O objetivo é criar um CRUD para gerenciar um diário de leitura
+          (Reading Journal), utilizando React, Axios, React Router e Material
+          UI.
+        </Typography>
+      </Paper>
+    </Box>
   );
 }
 
