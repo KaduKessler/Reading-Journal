@@ -67,15 +67,19 @@ function NavBar() {
               anchor="right"
               open={drawerOpen}
               onClose={() => setDrawerOpen(false)}
-              PaperProps={{
-                sx: {
-                  backgroundColor: "background.paper",
-                  color: "text.primary",
-                  width: 260,
-                  px: 2,
-                  py: 1.5,
-                  borderTopLeftRadius: 16,
-                  borderBottomLeftRadius: 16,
+              slotProps={{
+                paper: {
+                  sx: {
+                    width: 250,
+                    backgroundColor: "background.paper",
+                    color: "text.primary",
+                    px: 2,
+                    py: 3,
+                    borderTopLeftRadius: 16,
+                    borderBottomLeftRadius: 16,
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                  },
                 },
               }}
             >
