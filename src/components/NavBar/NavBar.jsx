@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const pages = [
@@ -28,6 +28,7 @@ function NavBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -101,59 +102,74 @@ function NavBar() {
               </Box>
 
               <List>
-                {pages.map((link) => (
-                  <ListItem
-                    key={link.to}
-                    component={RouterLink}
-                    to={link.to}
-                    onClick={() => setDrawerOpen(false)}
-                    disablePadding
-                  >
-                    <ListItemText
-                      primary={link.label}
-                      slotProps={{
-                        primary: {
-                          sx: {
-                            fontWeight: 500,
-                            color: "text.primary",
-                            px: 2,
-                            py: 1.5,
-                            borderRadius: 2,
-                            transition: "0.2s",
-                            "&:hover": {
-                              backgroundColor: "action.hover",
-                              color: "secondary.main",
+                {pages.map((link) => {
+                  const isActive = location.pathname === link.to;
+
+                  return (
+                    <ListItem
+                      key={link.to}
+                      component={RouterLink}
+                      to={link.to}
+                      onClick={() => setDrawerOpen(false)}
+                      disablePadding
+                      sx={{
+                        borderRadius: 2,
+                        backgroundColor: isActive
+                          ? "action.selected"
+                          : "transparent",
+                        mb: 0.5,
+                      }}
+                    >
+                      <ListItemText
+                        primary={link.label}
+                        slotProps={{
+                          primary: {
+                            sx: {
+                              fontWeight: isActive ? 700 : 500,
+                              color: isActive ? "primary.main" : "text.primary",
+                              px: 2,
+                              py: 1.5,
+                              borderRadius: 2,
+                              transition: "0.2s",
+                              "&:hover": {
+                                backgroundColor: "action.hover",
+                                color: "secondary.main",
+                              },
                             },
                           },
-                        },
-                      }}
-                    />
-                  </ListItem>
-                ))}
+                        }}
+                      />
+                    </ListItem>
+                  );
+                })}
               </List>
             </Drawer>
           </>
         ) : (
           <Stack direction="row" spacing={4}>
-            {pages.map((link) => (
-              <Typography
-                key={link.to}
-                component={RouterLink}
-                to={link.to}
-                sx={{
-                  color: "inherit",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  transition: "all 0.2s ease-in-out",
-                  "&:hover": {
-                    color: "secondary.main",
-                    textDecoration: "underline",
-                  },
-                }}
-              >
-                {link.label}
-              </Typography>
-            ))}
+            {pages.map((link) => {
+              const isActive = location.pathname === link.to;
+
+              return (
+                <Typography
+                  key={link.to}
+                  component={RouterLink}
+                  to={link.to}
+                  sx={{
+                    color: isActive ? "secondary.main" : "inherit",
+                    textDecoration: isActive ? "underline" : "none",
+                    fontWeight: isActive ? 600 : 500,
+                    transition: "all 0.2s ease-in-out",
+                    "&:hover": {
+                      color: "secondary.main",
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {link.label}
+                </Typography>
+              );
+            })}
           </Stack>
         )}
       </Toolbar>
