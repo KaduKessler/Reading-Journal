@@ -113,11 +113,15 @@ function NavBar() {
                       onClick={() => setDrawerOpen(false)}
                       disablePadding
                       sx={{
+                        my: 0.5,
                         borderRadius: 2,
-                        backgroundColor: isActive
-                          ? "action.selected"
-                          : "transparent",
-                        mb: 0.5,
+                        ...(isActive && {
+                          backgroundColor: "action.selected",
+                          pointerEvents: "none",
+                        }),
+                        "&:hover": {
+                          backgroundColor: !isActive && "action.hover",
+                        },
                       }}
                     >
                       <ListItemText
@@ -125,16 +129,10 @@ function NavBar() {
                         slotProps={{
                           primary: {
                             sx: {
-                              fontWeight: isActive ? 700 : 500,
-                              color: isActive ? "primary.main" : "text.primary",
+                              fontWeight: isActive ? 600 : 500,
+                              color: "text.primary",
                               px: 2,
                               py: 1.5,
-                              borderRadius: 2,
-                              transition: "0.2s",
-                              "&:hover": {
-                                backgroundColor: "action.hover",
-                                color: "secondary.main",
-                              },
                             },
                           },
                         }}
