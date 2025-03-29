@@ -1,6 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
-import { Box, Typography, Button, Paper, Stack } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+  Button,
+  Box,
+} from "@mui/material";
 
 function BookList({ books, onDelete }) {
   const navigate = useNavigate();
@@ -12,44 +19,46 @@ function BookList({ books, onDelete }) {
   };
 
   return (
-    <Stack spacing={2} alignItems="center">
+    <Stack spacing={2} width="100%" maxWidth="md">
       {books.map((book, index) => (
-        <Paper
+        <Card
           key={book.id}
-          elevation={3}
           sx={{
-            width: "100%",
-            maxWidth: 600,
-            padding: 2,
+            backgroundColor: "background.paper",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            bgcolor: "background.paper",
+            px: 2,
+            py: 1.5,
+            borderRadius: 2,
           }}
         >
-          <Box sx={{ flex: 1, mr: 2 }}>
+          <CardContent sx={{ flex: 1 }}>
             <Typography variant="body1">
               <strong>{book.title}</strong> – {book.author} ({book.genre}) –{" "}
               {formatDate(book.readAt)}
             </Typography>
-          </Box>
-          <Stack direction="row" spacing={1}>
+          </CardContent>
+
+          <Box sx={{ display: "flex", gap: 1 }}>
             <Button
               variant="contained"
-              color="secondary"
+              size="small"
+              color="primary"
               onClick={() => handleEdit(book, index)}
             >
               Editar
             </Button>
             <Button
               variant="contained"
+              size="small"
               color="error"
               onClick={() => onDelete(book.id)}
             >
               Excluir
             </Button>
-          </Stack>
-        </Paper>
+          </Box>
+        </Card>
       ))}
     </Stack>
   );

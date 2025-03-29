@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import BookList from "../components/BookList/BookList";
 import api from "../services/api";
 import usePageTitle from "../hooks/pageTitle";
-
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Stack,
-  Container,
-} from "@mui/material";
 
 function BookListPage() {
   usePageTitle("Lista de Livros");
@@ -46,28 +45,28 @@ function BookListPage() {
   );
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Stack spacing={3} alignItems="center">
-        <Typography variant="h4" component="h1" fontWeight="bold">
+    <Container maxWidth="md">
+      <Stack spacing={4} alignItems="center" sx={{ mt: 6 }}>
+        <Typography variant="h4" fontWeight="bold">
           Lista de Livros
         </Typography>
 
         <TextField
-          fullWidth
           variant="outlined"
           placeholder="Buscar livros..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          fullWidth
         />
 
         <BookList books={filteredBooks} onDelete={handleDeleteBook} />
 
-        <Box>
+        <Box width="100%" display="flex" justifyContent="center">
           <Button
-            component={Link}
-            to="/cadastrar"
             variant="contained"
             color="secondary"
+            component={Link}
+            to="/cadastrar"
           >
             Cadastrar novo livro
           </Button>
