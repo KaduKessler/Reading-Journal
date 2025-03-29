@@ -1,19 +1,35 @@
-import { AppBar, Toolbar, Typography, Box, Stack } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Stack,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 function NavBar() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar
         sx={{
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-between",
+          alignItems: isMobile ? "center" : "normal",
           maxWidth: "md",
           mx: "auto",
           width: "100%",
+          py: 2,
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", mb: isMobile ? 1 : 0 }}
+        >
           <img
             src="src/assets/favicon-1.webp"
             alt="Logo"
@@ -24,7 +40,11 @@ function NavBar() {
           </Typography>
         </Box>
 
-        <Stack direction="row" spacing={4}>
+        <Stack
+          direction={isMobile ? "column" : "row"}
+          spacing={isMobile ? 2 : 4}
+          alignItems="center"
+        >
           {[
             { label: "Home", to: "/" },
             { label: "Sobre", to: "/sobre" },
@@ -41,7 +61,7 @@ function NavBar() {
                 fontWeight: 500,
                 transition: "all 0.2s ease-in-out",
                 "&:hover": {
-                  color: "secondary.main", // ou qualquer cor do seu theme
+                  color: "secondary.main",
                   textDecoration: "underline",
                 },
               }}
