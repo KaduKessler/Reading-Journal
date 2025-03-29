@@ -15,7 +15,7 @@ function AddBook() {
   const location = useLocation();
   const bookToEdit = location.state?.book || null;
   const bookIndex = location.state?.index ?? null;
-  const duration = 4000;
+  const duration = 3000;
 
   usePageTitle(bookToEdit ? "Editar Livro" : "Cadastrar Livro");
 
