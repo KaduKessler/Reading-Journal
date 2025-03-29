@@ -14,8 +14,11 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useThemeMode } from "../../ThemeProvider";
 
 const pages = [
   { label: "Home", to: "/" },
@@ -26,9 +29,18 @@ const pages = [
 
 function NavBar() {
   const theme = useTheme();
+  const { mode, toggleTheme } = useThemeMode();
+
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [drawerOpen, setDrawerOpen] = useState(false);
+
   const location = useLocation();
+
+  const hoverColor =
+    theme.palette.mode === "dark"
+      ? theme.palette.secondary.main
+      : theme.palette.primary.main;
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -42,6 +54,7 @@ function NavBar() {
           py: 2,
         }}
       >
+        {/* Logo e título */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <img
             src="src/assets/favicon-1.webp"
@@ -53,6 +66,7 @@ function NavBar() {
           </Typography>
         </Box>
 
+        {/* Menu Mobile */}
         {isMobile ? (
           <>
             <IconButton
@@ -84,6 +98,7 @@ function NavBar() {
                 },
               }}
             >
+              {/* Cabeçalho do menu */}
               <Box
                 display="flex"
                 justifyContent="space-between"
@@ -101,10 +116,10 @@ function NavBar() {
                 </IconButton>
               </Box>
 
+              {/* Lista de páginas */}
               <List>
                 {pages.map((link) => {
                   const isActive = location.pathname === link.to;
-
                   return (
                     <ListItem
                       key={link.to}
@@ -141,25 +156,32 @@ function NavBar() {
                   );
                 })}
               </List>
+
+              {/* Botão de alternância de tema dentro do Drawer */}
+              <Box textAlign="center" mt={2}>
+                <IconButton color="inherit" onClick={toggleTheme}>
+                  {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton>
+              </Box>
             </Drawer>
           </>
         ) : (
-          <Stack direction="row" spacing={4}>
+          // Menu Desktop
+          <Stack direction="row" spacing={4} alignItems="center">
             {pages.map((link) => {
               const isActive = location.pathname === link.to;
-
               return (
                 <Typography
                   key={link.to}
                   component={RouterLink}
                   to={link.to}
                   sx={{
-                    color: isActive ? "secondary.main" : "inherit",
+                    color: isActive ? hoverColor : "inherit",
                     textDecoration: isActive ? "underline" : "none",
                     fontWeight: isActive ? 600 : 500,
                     transition: "all 0.2s ease-in-out",
                     "&:hover": {
-                      color: "secondary.main",
+                      color: hoverColor,
                       textDecoration: "underline",
                     },
                   }}
@@ -168,6 +190,11 @@ function NavBar() {
                 </Typography>
               );
             })}
+
+            {/* Botão de alternância de tema Desktop */}
+            <IconButton sx={{ ml: 2 }} onClick={toggleTheme} color="inherit">
+              {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
           </Stack>
         )}
       </Toolbar>
