@@ -1,7 +1,7 @@
 # Reading Journal 📚
 
 Este é um projeto desenvolvido para a **Fase 2** da disciplina de **Desenvolvimento de Sistemas Frontend** do curso de Análise e Desenvolvimento de Sistemas da PUCRS.  
-O objetivo foi criar um CRUD completo (Create, Read, Update, Delete) para um inventário de livros lidos, integrando com uma API REST fornecida pela instituição.
+O objetivo foi criar um CRUD completo (Create, Read, Update, Delete) para um inventário de livros lidos, com integração a uma API REST fornecida pela instituição e interface moderna utilizando Material UI.
 
 ## 👤 Aluno
 
@@ -12,10 +12,14 @@ Curso: Análise e Desenvolvimento de Sistemas – PUCRS Online
 
 - React
 - Vite
+- Material UI (MUI)
 - React Router DOM
 - Axios
 - JavaScript (ES6+)
-- CSS com suporte a tema escuro/claro adaptado ao sistema
+- Vitest (testes funcionais)
+- Modo Escuro/Claro com persistência local (tema dinâmico)
+- Snackbar com barra de progresso
+- Responsividade completa (NavBar adaptativa)
 
 ## 🚀 Como executar o projeto
 
@@ -63,53 +67,70 @@ Curso: Análise e Desenvolvimento de Sistemas – PUCRS Online
 
 ## 🧩 Funcionalidades implementadas
 
-- **Listagem de livros (GET)**  
-  Exibe todos os livros cadastrados na API com opção de editar ou excluir.
+- **Listagem de livros (GET)**
+  Exibe todos os livros cadastrados com busca dinâmica, botões de edição e exclusão.
 
-- **Cadastro de novo livro (POST)**  
-  Formulário com validação para adicionar um novo livro à API.
+- **Cadastro e Edição de livros (POST & PUT)**
+  Formulário com validações, foco automático, preenchimento em modo de edição e feedback com Snackbar.
 
-- **Edição de livro (PUT)**  
-  Ao clicar em "Editar", o formulário é preenchido com os dados do livro e permite atualizar.
+- **Exclusão de livro (DELETE)**
+  Remove o livro da API com notificação de sucesso (Snackbar com barra de tempo).
 
-- **Exclusão de livro (DELETE)**  
-  Remove o livro da lista e da base da API.
+- **Tema escuro/claro com botão de alternância**
+  Preferência do usuário é armazenada no `localStorage`.
 
-- **Feedback visual**  
-  Mensagens de sucesso e exibição do último livro cadastrado/atualizado.
+- **Barra de navegação responsiva com menu hambúrguer no mobile**
+
+- **Página Sobre com contexto do projeto e Página Home introdutória**
+
+- **Testes funcionais com Vitest e Testing Library**
+
+## 🧪 Testes
+
+Foram criados testes com `Vitest` e `@testing-library/react` para os principais componentes:
+
+- `BookList` — renderização de livros e exclusão
+- `BookForm` — validação e envio do formulário
+- `NavBar` — visibilidade e navegação dos links
+
+Para rodar os testes:
+
+```bash
+npm test
+```
 
 ## 📦 Componentes principais
 
-### BookForm
+### `BookForm`
 
-Formulário reutilizável para cadastro e edição.  
-Possui validações, foco automático e integrações com a API.
+Formulário reutilizável com MUI para cadastro e edição.  
+Validação, inputs controlados e integração com a API.
 
-### BookList
+### `BookList`
 
-Renderiza dinamicamente os livros obtidos via API.  
-Cada item contém botões de "Editar" e "Excluir".
+Renderiza dinamicamente os livros cadastrados.  
+Inclui botões para editar e excluir.
 
-### BookListPage
+### `BookListPage`
 
-Página principal da listagem.  
-Faz a requisição GET, exibe os livros e permite deletar.
+Página principal com campo de busca, listagem filtrada e botão para adicionar novo livro.
 
-### AddBook
+### `AddBook`
 
-Página que reutiliza o BookForm para cadastrar e atualizar livros via POST e PUT.
+Página com formulário para cadastrar ou atualizar um livro.  
+Exibe Snackbar animado com barra de progresso.
 
-### NavBar
+### `NavBar`
 
-Barra de navegação com links para as páginas: Home, Cadastro, Lista e Sobre.
+Barra de navegação responsiva, com links estilizados, menu hambúrguer e botão de alternância de tema.
 
 ## ✅ Observações
 
-- Os dados são consumidos dinamicamente da API com Axios.
-- Todas as operações estão integradas: GET, POST, PUT e DELETE.
-- Datas são formatadas no padrão brasileiro (DD/MM/AAAA).
-- Estilização com suporte a tema claro/escuro via `prefers-color-scheme`.
-- Projeto segue as instruções propostas pela disciplina e validações básicas de formulários.
+- Projeto utiliza somente Material UI para toda a interface.
+- Modo escuro/claro com tema global via `ThemeProvider`.
+- Snackbar com `LinearProgress` embutido.
+- Utilização de hooks personalizados como `usePageTitle`.
+- Código limpo, organizado por pastas e com tipagens adequadas.
 
 ## 🖼️ Prints da aplicação
 
@@ -117,10 +138,16 @@ Barra de navegação com links para as páginas: Home, Cadastro, Lista e Sobre.
 
 ![Home](./src/assets/home.png)
 
+### Página de Lista de Livros
+
+![Lista](./src/assets/lista.png)
+
+### Página de Edição de Livro
+
+![Edição](./src/assets/edicao.png)
+
 ### Página de Cadastro
 
 ![Cadastro](./src/assets/cadastro.png)
 
-### Página de Lista de Livros
-
-![Lista](./src/assets/lista.png)
+![Cadastro1](./src/assets/cadastro1.png)
