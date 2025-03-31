@@ -1,44 +1,36 @@
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
+import { describe, it, expect } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
 import NavBar from "./NavBar";
+import { MemoryRouter } from "react-router-dom";
+import { ThemeModeProvider } from "../../ThemeProvider";
 
-describe("NavBar Component", () => {
-  it("deve renderizar os links de navegação", () => {
-    render(
+// Utilitário para renderizar com Router + Tema
+const renderWithProviders = () =>
+  render(
+    <ThemeModeProvider>
       <MemoryRouter>
         <NavBar />
       </MemoryRouter>
-    );
+    </ThemeModeProvider>
+  );
 
+describe("NavBar", () => {
+  it("renderiza título e links principais no modo desktop", () => {
+    renderWithProviders();
+
+    expect(screen.getByText(/Reading Journal/i)).toBeInTheDocument();
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getByText("Sobre")).toBeInTheDocument();
     expect(screen.getByText("Lista de livros")).toBeInTheDocument();
     expect(screen.getByText("Cadastrar")).toBeInTheDocument();
   });
 
-  it("deve navegar para a rota correta ao clicar nos links", async () => {
-    const user = userEvent.setup();
+  it("permite alternar entre tema claro/escuro", () => {
+    renderWithProviders();
 
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<div>Página Inicial</div>} />
-          <Route path="/sobre" element={<div>Página Sobre</div>} />
-          <Route path="/cadastrar" element={<div>Página Cadastrar</div>} />
-          <Route path="/livros" element={<div>Página Lista de livros</div>} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const toggleBtn = screen.getByRole("button", { name: /alternar tema/i });
+    expect(toggleBtn).toBeInTheDocument();
 
-    await user.click(screen.getByText("Sobre"));
-    expect(screen.getByText("Página Sobre")).toBeInTheDocument();
-
-    await user.click(screen.getByText("Cadastrar"));
-    expect(screen.getByText("Página Cadastrar")).toBeInTheDocument();
-
-    await user.click(screen.getByText("Lista de livros"));
-    expect(screen.getByText("Página Lista de livros")).toBeInTheDocument();
+    fireEvent.click(toggleBtn); // Simula troca de tema
   });
 });

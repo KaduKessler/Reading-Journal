@@ -159,7 +159,11 @@ function NavBar() {
 
               {/* Botão de alternância de tema dentro do Drawer */}
               <Box textAlign="center" mt={2}>
-                <IconButton color="inherit" onClick={toggleTheme}>
+                <IconButton
+                  color="inherit"
+                  onClick={toggleTheme}
+                  aria-label="alternar tema"
+                >
                   {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
                 </IconButton>
               </Box>
@@ -192,7 +196,12 @@ function NavBar() {
             })}
 
             {/* Botão de alternância de tema Desktop */}
-            <IconButton sx={{ ml: 2 }} onClick={toggleTheme} color="inherit">
+            <IconButton
+              sx={{ ml: 2 }}
+              onClick={toggleTheme}
+              color="inherit"
+              aria-label="alternar tema"
+            >
               {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Stack>
