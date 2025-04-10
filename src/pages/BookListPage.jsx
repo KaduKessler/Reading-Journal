@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Box,
   Button,
@@ -25,11 +25,24 @@ function BookListPage() {
   const [progress, setProgress] = useState(100);
   const duration = 3000;
 
+  const location = useLocation();
+  const scrollToId = location.state?.scrollToId ?? null;
+  const itemRefs = useRef({});
+
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const response = await api.get("/books");
         setBooks(response.data);
+
+        if (scrollToId) {
+          setTimeout(() => {
+            itemRefs.current[scrollToId]?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 200);
+        }
       } catch (error) {
         console.error("Erro ao buscar livros:", error);
       }
@@ -83,7 +96,11 @@ function BookListPage() {
         sx={{ mb: 4 }}
       />
 
-      <BookList books={filteredBooks} onDelete={handleDeleteBook} />
+      <BookList
+        books={filteredBooks}
+        onDelete={handleDeleteBook}
+        itemRefs={itemRefs}
+      />
 
       <Box textAlign="center" mt={4}>
         <Button

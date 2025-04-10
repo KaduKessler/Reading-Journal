@@ -34,19 +34,16 @@ function BookForm({ onAddBook, bookToEdit, bookIndex, setSuccessMessage }) {
     }
 
     const newBook = {
+      ...(bookToEdit?.id && { id: bookToEdit.id }),
       title,
       author,
       genre,
       readAt,
-      ...(bookToEdit?.id && { id: bookToEdit.id }),
     };
 
     onAddBook(newBook, bookIndex);
 
-    if (bookIndex !== null && bookIndex !== undefined) {
-      setSuccessMessage("Livro atualizado com sucesso!");
-    } else {
-      setSuccessMessage("Livro cadastrado com sucesso!");
+    if (!bookToEdit) {
       setTitle("");
       setAuthor("");
       setGenre("");

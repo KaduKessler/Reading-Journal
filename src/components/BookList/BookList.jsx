@@ -9,7 +9,7 @@ import {
   Box,
 } from "@mui/material";
 
-function BookList({ books, onDelete }) {
+function BookList({ books, onDelete, itemRefs }) {
   const navigate = useNavigate();
 
   const handleEdit = (book, index) => {
@@ -23,6 +23,7 @@ function BookList({ books, onDelete }) {
       {books.map((book, index) => (
         <Card
           key={book.id}
+          ref={(el) => (itemRefs.current[book.id] = el)}
           sx={{
             backgroundColor: "background.paper",
             display: "flex",

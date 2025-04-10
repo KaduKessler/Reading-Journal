@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BookForm from "../components/BookForm/BookForm";
 import api from "../services/api";
 import usePageTitle from "../hooks/pageTitle";
@@ -19,18 +19,20 @@ function AddBook() {
 
   usePageTitle(bookToEdit ? "Editar Livro" : "Cadastrar Livro");
 
+  const navigate = useNavigate();
+
   const handleAddBook = async (newBook) => {
     try {
       if (bookToEdit) {
         await api.put("/books", newBook);
         setSuccessMessage("Livro atualizado com sucesso!");
+        navigate("/livros", { state: { scrollToId: newBook.id } });
       } else {
         await api.post("/books", newBook);
         setSuccessMessage("Livro cadastrado com sucesso!");
+        setSnackbarOpen(true);
+        startProgress();
       }
-
-      setSnackbarOpen(true);
-      startProgress();
     } catch (error) {
       console.error("Erro ao salvar livro:", error);
     }
