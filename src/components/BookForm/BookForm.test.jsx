@@ -5,20 +5,13 @@ import BookForm from "./BookForm";
 
 describe("BookForm", () => {
   let mockOnAddBook;
-  let mockSetSuccessMessage;
 
   beforeEach(() => {
     mockOnAddBook = vi.fn();
-    mockSetSuccessMessage = vi.fn();
   });
 
   it("deve renderizar o formulário corretamente", () => {
-    render(
-      <BookForm
-        onAddBook={mockOnAddBook}
-        setSuccessMessage={mockSetSuccessMessage}
-      />
-    );
+    render(<BookForm onAddBook={mockOnAddBook} />);
 
     expect(screen.getByLabelText(/título/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/autor\(a\)/i)).toBeInTheDocument();
@@ -30,12 +23,7 @@ describe("BookForm", () => {
   });
 
   it("deve submeter o formulário com sucesso e limpar os campos quando não estiver editando", () => {
-    render(
-      <BookForm
-        onAddBook={mockOnAddBook}
-        setSuccessMessage={mockSetSuccessMessage}
-      />
-    );
+    render(<BookForm onAddBook={mockOnAddBook} />);
 
     fireEvent.change(screen.getByLabelText(/título/i), {
       target: { value: "Livro Teste" },
@@ -61,9 +49,6 @@ describe("BookForm", () => {
       },
       undefined
     );
-    expect(mockSetSuccessMessage).toHaveBeenCalledWith(
-      "Livro cadastrado com sucesso!"
-    );
 
     // Verifica se os campos foram limpos após o cadastro
     expect(screen.getByLabelText(/título/i)).toHaveValue("");
@@ -84,7 +69,6 @@ describe("BookForm", () => {
     render(
       <BookForm
         onAddBook={mockOnAddBook}
-        setSuccessMessage={mockSetSuccessMessage}
         bookToEdit={bookToEdit}
         bookIndex={1}
       />
@@ -114,9 +98,6 @@ describe("BookForm", () => {
         id: 123,
       },
       1
-    );
-    expect(mockSetSuccessMessage).toHaveBeenCalledWith(
-      "Livro atualizado com sucesso!"
     );
   });
 });

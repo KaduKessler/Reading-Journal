@@ -11,6 +11,7 @@ vi.mock("react-router-dom", () => ({
 describe("BookList", () => {
   let books;
   let mockOnDelete;
+  let mockItemRefs;
 
   beforeEach(() => {
     books = [
@@ -30,14 +31,15 @@ describe("BookList", () => {
       },
     ];
     mockOnDelete = vi.fn();
-    // Reseta o mock do navigate antes de cada teste
     mockNavigate.mockReset();
+    mockItemRefs = { current: {} }; // simula um useRef real
   });
 
   it("deve renderizar a lista de livros corretamente", () => {
-    render(<BookList books={books} onDelete={mockOnDelete} />);
+    render(
+      <BookList books={books} onDelete={mockOnDelete} itemRefs={mockItemRefs} />
+    );
 
-    // Verifica se os títulos, autores e gêneros dos livros estão na tela
     books.forEach((book) => {
       expect(screen.getByText(new RegExp(book.title, "i"))).toBeInTheDocument();
       expect(
@@ -48,19 +50,21 @@ describe("BookList", () => {
   });
 
   it("deve chamar onDelete com o id correto ao clicar no botão Excluir", () => {
-    render(<BookList books={books} onDelete={mockOnDelete} />);
+    render(
+      <BookList books={books} onDelete={mockOnDelete} itemRefs={mockItemRefs} />
+    );
 
     const excluirButtons = screen.getAllByRole("button", { name: /excluir/i });
-    // Clica no botão de excluir do primeiro livro
     fireEvent.click(excluirButtons[0]);
     expect(mockOnDelete).toHaveBeenCalledWith(1);
   });
 
   it("deve navegar para a página de edição com os dados corretos ao clicar em Editar", () => {
-    render(<BookList books={books} onDelete={mockOnDelete} />);
+    render(
+      <BookList books={books} onDelete={mockOnDelete} itemRefs={mockItemRefs} />
+    );
 
     const editarButtons = screen.getAllByRole("button", { name: /editar/i });
-    // Clica no botão de editar do primeiro livro
     fireEvent.click(editarButtons[0]);
     expect(mockNavigate).toHaveBeenCalledWith("/cadastrar", {
       state: { book: books[0], index: 0 },
