@@ -144,11 +144,6 @@ function BookListPage() {
         open={snackbarOpen}
         autoHideDuration={duration}
         onClose={() => setSnackbarOpen(false)}
-        onExited={() => {
-          setDeletedTitle("");
-          setActionMessage("");
-          setProgress(100);
-        }}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         slots={{ transition: Slide }}
       >
