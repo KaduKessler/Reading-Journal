@@ -20,6 +20,7 @@ function BookListPage() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
 
+  const [actionMessage, setActionMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [deletedTitle, setDeletedTitle] = useState("");
   const [progress, setProgress] = useState(100);
@@ -27,22 +28,15 @@ function BookListPage() {
 
   const location = useLocation();
   const scrollToId = location.state?.scrollToId ?? null;
+  const scrollToTitle = location.state?.scrollToTitle ?? null;
   const itemRefs = useRef({});
+  const incomingSuccessMessage = location.state?.successMessage;
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const response = await api.get("/books");
         setBooks(response.data);
-
-        if (scrollToId) {
-          setTimeout(() => {
-            itemRefs.current[scrollToId]?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 200);
-        }
       } catch (error) {
         console.error("Erro ao buscar livros:", error);
       }
@@ -50,6 +44,39 @@ function BookListPage() {
 
     fetchBooks();
   }, []);
+
+  useEffect(() => {
+    if (books.length > 0) {
+      if (scrollToId) {
+        setTimeout(() => {
+          itemRefs.current[scrollToId]?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 200);
+      } else if (scrollToTitle) {
+        const book = books.find((b) => b.title === scrollToTitle);
+        if (book?.id) {
+          setTimeout(() => {
+            itemRefs.current[book.id]?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 200);
+        }
+      }
+    }
+  }, [scrollToId, scrollToTitle, books]);
+
+  useEffect(() => {
+    if (incomingSuccessMessage) {
+      setActionMessage(incomingSuccessMessage);
+      setSnackbarOpen(true);
+      startProgress();
+
+      window.history.replaceState({}, document.title);
+    }
+  }, [incomingSuccessMessage]);
 
   const handleDeleteBook = async (id) => {
     try {
@@ -117,12 +144,17 @@ function BookListPage() {
         open={snackbarOpen}
         autoHideDuration={duration}
         onClose={() => setSnackbarOpen(false)}
+        onExited={() => {
+          setDeletedTitle("");
+          setActionMessage("");
+          setProgress(100);
+        }}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         slots={{ transition: Slide }}
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity="info"
+          severity="success"
           variant="filled"
           sx={{
             width: "100%",
@@ -133,7 +165,9 @@ function BookListPage() {
             overflow: "hidden",
           }}
         >
-          📚 "{deletedTitle}" foi removido da lista.
+          {deletedTitle
+            ? `📚 "${deletedTitle}" foi removido da lista.`
+            : actionMessage}
           <LinearProgress
             variant="determinate"
             value={progress}
