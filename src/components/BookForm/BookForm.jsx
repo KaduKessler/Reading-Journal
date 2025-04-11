@@ -9,7 +9,7 @@ import {
   Alert,
 } from "@mui/material";
 
-function BookForm({ onAddBook, bookToEdit, bookIndex, setSuccessMessage }) {
+function BookForm({ onAddBook, bookToEdit, bookIndex }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
