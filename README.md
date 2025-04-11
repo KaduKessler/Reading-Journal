@@ -71,10 +71,12 @@ Curso: Análise e Desenvolvimento de Sistemas – PUCRS Online
   Exibe todos os livros cadastrados com busca dinâmica, botões de edição e exclusão.
 
 - **Cadastro e Edição de livros (POST & PUT)**
-  Formulário com validações, foco automático, preenchimento em modo de edição e feedback com Snackbar.
+  Formulário com validações, foco automático, preenchimento automático em modo de edição, e feedback visual com Snackbar.
+  Após cadastrar ou editar, a lista rola suavemente até o livro em questão.
 
 - **Exclusão de livro (DELETE)**
-  Remove o livro da API com notificação de sucesso (Snackbar com barra de tempo).
+  Remove o livro da API com notificação de sucesso.
+  Feedback é exibido com Snackbar e barra de progresso embutida.
 
 - **Tema escuro/claro com botão de alternância**
   Preferência do usuário é armazenada no `localStorage`.
@@ -104,7 +106,8 @@ npm test
 ### `BookForm`
 
 Formulário reutilizável com MUI para cadastro e edição.  
-Validação, inputs controlados e integração com a API.
+Possui validação dos campos, inputs controlados e integração com a API.  
+Após o envio, redireciona para a listagem com feedback visual exibido via Snackbar.
 
 ### `BookList`
 
